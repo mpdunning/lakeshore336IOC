@@ -1,0 +1,273 @@
+#--- Chan $(N) ---------------------------------------------------------
+#--- Control -------------------
+record(mbbo,"$(P):OUT$(N):Cntrl") {
+	field(DTYP,"Raw Soft Channel")
+	field(ZRVL,"0")
+	field(ONVL,"1")
+	field(TWVL,"2")
+	field(THVL,"3")
+	field(FRVL,"4")
+	field(ZRST,"-")
+	field(ONST,"A")
+	field(TWST,"B")
+	field(THST,"C")
+	field(FRST,"D")
+  	field(OUT, "$(P):OUT$(N):Cntrl_write PP")
+}
+record(mbbo,"$(P):OUT$(N):Cntrl_write") {
+    field(DTYP, "stream")
+	field(ZRVL,"0")
+	field(ONVL,"1")
+	field(TWVL,"2")
+	field(THVL,"3")
+	field(FRVL,"4")
+	field(ZRST,"-")
+	field(ONST,"A")
+	field(TWST,"B")
+	field(THST,"C")
+	field(FRST,"D")
+    field(SDIS, "$(P):OUT$(N):Cntrl_sync.PACT")
+    field(DISV, "1")
+    field(OUT,  "@$(PROTOFILE) setInType($(N),$(P)) $(PORT) $(ADDR)")
+  	field(FLNK, "$(P):setOutMode$(N).VAL PP MS")
+}
+record(mbbi,"$(P):OUT$(N):Cntrl_RBV") {
+	field(DTYP,"Raw Soft Channel")
+	field(ZRVL,"0")
+	field(ONVL,"1")
+	field(TWVL,"2")
+	field(THVL,"3")
+	field(FRVL,"4")
+	field(ZRST,"-")
+	field(ONST,"A")
+	field(TWST,"B")
+	field(THST,"C")
+	field(FRST,"D")
+  	field(FLNK,"$(P):OUT$(N):Cntrl_sync.PROC")
+}
+record(mbbo,"$(P):OUT$(N):Cntrl_sync") {
+	field(ZRVL,"0")
+	field(ONVL,"1")
+	field(TWVL,"2")
+	field(THVL,"3")
+	field(FRVL,"4")
+	field(ZRST,"-")
+	field(ONST,"A")
+	field(TWST,"B")
+	field(THST,"C")
+	field(FRST,"D")
+    field(DOL,  "$(P):OUT$(N):Cntrl_RBV")
+    field(OMSL, "closed_loop")
+    field(OUT,  "$(P):OUT$(N):Cntrl PP")
+}
+
+#--- Mode ------------------------------
+record(mbbo,"$(P):OUT$(N):Mode") {
+	field(ZRVL,"0")
+	field(ONVL,"1")
+	field(TWVL,"2")
+	field(THVL,"3")
+	field(ZRST,"Off")
+	field(ONST,"Closed Loop")
+	field(TWST,"Zone")
+	field(THST,"Open Loop")
+  	field(OUT, "$(P):OUT$(N):Mode_write PP")
+}
+record(mbbo,"$(P):OUT$(N):Mode_write") {
+	field(ZRVL,"0")
+	field(ONVL,"1")
+	field(TWVL,"2")
+	field(THVL,"3")
+	field(ZRST,"Off")
+	field(ONST,"Closed Loop")
+	field(TWST,"Zone")
+	field(THST,"Open Loop")
+    field(SDIS, "$(P):OUT$(N):Mode_sync.PACT")
+    field(DISV, "1")
+  	field(FLNK,"$(P):setOutMode$(N).VAL PP MS")
+}
+record(mbbi,"$(P):OUT$(N):Mode_RBV") {
+	field(ZRVL,"0")
+	field(ONVL,"1")
+	field(TWVL,"2")
+	field(THVL,"3")
+	field(ZRST,"Off")
+	field(ONST,"Closed Loop")
+	field(TWST,"Zone")
+	field(THST,"Open Loop")
+  	field(FLNK,"$(P):OUT$(N):Mode_sync.PROC")
+}
+record(mbbo,"$(P):OUT$(N):Mode_sync") {
+	field(ZRVL,"0")
+	field(ONVL,"1")
+	field(TWVL,"2")
+	field(THVL,"3")
+	field(ZRST,"Off")
+	field(ONST,"Closed Loop")
+	field(TWST,"Zone")
+	field(THST,"Open Loop")
+    field(DOL,  "$(P):OUT$(N):Mode_RBV")
+    field(OMSL, "closed_loop")
+    field(OUT,  "$(P):OUT$(N):Mode PP")
+}
+#------------------------------------
+record(stringin,"$(P):IN$(N):getType") {
+        field(DTYP, "stream")
+        field(INP, "@$(PROTOFILE) getInType($(N),$(P)) $(PORT) $(ADDR)")
+}
+
+record(mbbi,"$(P):IN$(N):Sensor_RBV") {
+	field(ZRVL,"0")
+	field(ONVL,"1")
+	field(TWVL,"2")
+	field(THVL,"3")
+	field(FRVL,"4")
+	field(ZRST,"Disabled")
+	field(ONST,"Diode")
+	field(TWST,"Platium RTD")
+	field(THST,"NTC RTD")
+	field(FRST,"Thermocouple")
+}
+
+record(bi,"$(P):IN$(N):AutoRange_RBV") {
+	field(ZNAM,"OFF")
+	field(ONAM,"ON")
+}
+
+record(ai,"$(P):IN$(N):Range_RBV") {
+}
+
+record(bi,"$(P):IN$(N):Comp_RBV") {
+	field(ZNAM,"OFF")
+	field(ONAM,"ON")
+}
+#--- Units ----------------------
+record(mbbo,"$(P):IN$(N):Units") {
+    field(DTYP, "Raw Soft Channel")
+	field(ZRVL, "1")
+	field(ONVL, "2")
+	field(TWVL, "3")
+	field(ZRST, "K")
+	field(ONST, "C")
+	field(TWST, "S")
+    field(OUT,  "$(P):IN$(N):Units_write PP")
+}
+record(mbbo,"$(P):IN$(N):Units_write") {
+    field(DTYP, "stream")
+	field(ZRVL, "1")
+	field(ONVL, "2")
+	field(TWVL, "3")
+	field(ZRST, "K")
+	field(ONST, "C")
+	field(TWST, "S")
+    field(SDIS, "$(P):IN$(N):Units_sync.PACT")
+    field(DISV, "1")
+    field(OUT,  "@$(PROTOFILE) setInType($(N),$(P)) $(PORT) $(ADDR)")
+#    field(FLNK, "$(P):readAll")
+}
+record(mbbi,"$(P):IN$(N):Units_RBV") {
+    field(DTYP, "Raw Soft Channel")
+	field(ZRVL, "1")
+	field(ONVL, "2")
+	field(TWVL, "3")
+	field(ZRST, "K")
+	field(ONST, "C")
+	field(TWST, "S")
+    field(FLNK, "$(P):IN$(N):Units_sync")
+}
+record(mbbo,"$(P):IN$(N):Units_sync") {
+	field(ZRVL, "1")
+	field(ONVL, "2")
+	field(TWVL, "3")
+	field(ZRST, "K")
+	field(ONST, "C")
+	field(TWST, "S")
+    field(DOL,  "$(P):IN$(N):Units_RBV NPP")
+    field(OMSL, "closed_loop")
+    field(OUT,  "$(P):IN$(N):Units PP")
+}
+#------------------------------
+
+record (stringin, "$(P):IN$(N):Name_RBV") {
+  field (DTYP, "stream")
+  field (INP, "@$(PROTOFILE) getInName($(N),$(P)) $(PORT) $(ADDR)")
+}
+
+record(ai,"$(P):IN$(N)") {
+	field(PREC, 4)
+        field(DTYP, "stream")
+        field(INP, "@$(PROTOFILE) getInput($(N),$(P)) $(PORT) $(ADDR)")
+}
+
+#--- Set point -----------
+record (ao, "$(P):OUT$(N):SP") {
+    field(PREC, "4")
+    field(OUT,  "$(P):OUT$(N):SP_write PP")
+}
+record(ao,"$(P):OUT$(N):SP_write") {
+    field(DTYP, "stream")
+    field(PREC, "4")
+    field(SDIS, "$(P):OUT$(N):SP_sync.PACT")
+    field(DISV, "1")
+    field(OUT,  "@$(PROTOFILE) setSETP($(N)) $(PORT) $(ADDR)")
+    field(FLNK, "$(P):OUT$(N):SP_RBV.VAL  PP MS")
+}
+record (ai, "$(P):OUT$(N):SP_RBV") {
+    field(DTYP, "stream")
+    field(PREC, "4")
+    field(INP,  "@$(PROTOFILE) getSETP($(N)) $(PORT) $(ADDR)")
+    field(FLNK, "$(P):OUT$(N):SP_sync")
+}
+record(ao,"$(P):OUT$(N):SP_sync") {
+    field(DOL,  "$(P):OUT$(N):SP_RBV NPP")
+    field(OMSL, "closed_loop")
+    field(OUT,  "$(P):OUT$(N):SP PP")
+}
+
+#--- Manual output -----------
+record(ao, "$(P):OUT$(N):MOUT") {
+    field(PREC, "2")
+    field(DRVL, "0.0")
+    field(DRVH, "100.0")
+    field(OUT,  "$(P):OUT$(N):MOUT_write PP")
+}
+record(ao,"$(P):OUT$(N):MOUT_write") {
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(SDIS, "$(P):OUT$(N):MOUT_sync.PACT")
+    field(DISV, "1")
+    field(OUT,  "@$(PROTOFILE) setMOUT($(N)) $(PORT) $(ADDR)")
+    field(FLNK, "$(P):OUT$(N):MOUT_RBV.VAL  PP MS")
+}
+record (ai, "$(P):OUT$(N):MOUT_RBV") {
+    field(DTYP, "stream")
+    field(PREC, "2")
+    field(INP,  "@$(PROTOFILE) getMOUT($(N)) $(PORT) $(ADDR)")
+    field(FLNK, "$(P):OUT$(N):MOUT_sync")
+}
+record(ao,"$(P):OUT$(N):MOUT_sync") {
+    field(DOL,  "$(P):OUT$(N):MOUT_RBV NPP")
+    field(OMSL, "closed_loop")
+    field(OUT,  "$(P):OUT$(N):MOUT PP")
+}
+#----------------------------------
+
+record (stringin, "$(P):setOutMode$(N)") {
+  field (DTYP, "stream")
+  field (INP, "@$(PROTOFILE) setOUTMODE($(N),$(P)) $(PORT) $(ADDR)")
+#  field (FLNK,"$(P):readAll")
+}
+
+record (stringin, "$(P):getOutMode$(N)") {
+  field (DTYP, "stream")
+  field (INP, "@$(PROTOFILE) getOUTMODE($(N),$(P)) $(PORT) $(ADDR)")
+}
+
+record(stringout, "$(P):DESC$(N)") {
+  field(VAL,  "Loop $(N) description")
+  field(PINI, "1")
+}
+
+
+
+

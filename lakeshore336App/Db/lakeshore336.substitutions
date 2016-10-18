@@ -1,0 +1,23 @@
+file lakeCommon.template {
+pattern
+{none}
+{none}
+}
+
+file lakeChan.template {
+pattern
+{ N,}
+{ 1,}
+{ 2,}
+{ 3,}
+{ 4,}
+}
+
+file lakePID.template {
+pattern
+{ N,}
+{ 1,}
+{ 2,}
+}
+
+

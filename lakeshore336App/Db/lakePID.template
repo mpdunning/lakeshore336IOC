@@ -1,0 +1,232 @@
+#--- PID Loop $(N) -------------------------------------------
+record(ai,"$(P):HTR$(N)") {
+	field(PREC, 1)
+    field(DTYP, "stream")
+    field(INP, "@$(PROTOFILE) getHeater($(N)) $(PORT) $(ADDR)")
+}
+
+#--- P -----------------
+record(ao,"$(P):P$(N)") {
+	field(PREC, "1")
+    field(DRVL, "0.0")
+    field(DRVH, "1000.0")
+	field(OUT,  "$(P):P$(N)_write PP")
+}
+record(ao,"$(P):P$(N)_write") {
+	field(PREC, "1")
+    field(DRVL, "0.0")
+    field(DRVH, "1000.0")
+	field(SDIS, "$(P):P$(N)_sync.PACT")
+	field(DISV, "1")
+	field(FLNK, "$(P):setPID$(N).VAL PP MS")
+}
+record(ai,"$(P):P$(N)_RBV") {
+	field(PREC, "1")
+	field(FLNK, "$(P):P$(N)_sync.PROC")
+}
+record(ao,"$(P):P$(N)_sync") {
+	field(PREC, "1")
+	field(DOL,  "$(P):P$(N)_RBV NPP")
+	field(OMSL, "closed_loop")
+	field(OUT,  "$(P):P$(N) PP")
+}
+
+#--- I -----------------
+record(ao,"$(P):I$(N)") {
+	field(PREC, "1")
+    field(DRVL, "0.0")
+    field(DRVH, "1000.0")
+	field(OUT,  "$(P):I$(N)_write PP")
+}
+record(ao,"$(P):I$(N)_write") {
+	field(PREC, "1")
+    field(DRVL, "0.0")
+    field(DRVH, "1000.0")
+	field(SDIS, "$(P):I$(N)_sync.PACT")
+	field(DISV, "1")
+	field(FLNK, "$(P):setPID$(N).VAL PP MS")
+}
+record(ai,"$(P):I$(N)_RBV") {
+	field(PREC, "1")
+	field(FLNK, "$(P):I$(N)_sync.PROC")
+}
+record(ao,"$(P):I$(N)_sync") {
+	field(PREC, "1")
+	field(DOL,  "$(P):I$(N)_RBV NPP")
+	field(OMSL, "closed_loop")
+	field(OUT,  "$(P):I$(N) PP")
+}
+
+#--- D -----------------
+record(ao,"$(P):D$(N)") {
+	field(PREC, "0")
+    field(DRVL, "0")
+    field(DRVH, "200")
+	field(OUT,  "$(P):D$(N)_write PP")
+}
+record(ao,"$(P):D$(N)_write") {
+	field(PREC, "0")
+    field(DRVL, "0")
+    field(DRVH, "200")
+	field(SDIS, "$(P):D$(N)_sync.PACT")
+	field(DISV, "1")
+	field(FLNK, "$(P):setPID$(N).VAL PP MS")
+}
+record(ai,"$(P):D$(N)_RBV") {
+	field(PREC, "0")
+	field(FLNK, "$(P):D$(N)_sync.PROC")
+}
+record(ao,"$(P):D$(N)_sync") {
+	field(PREC, "0")
+	field(DOL,  "$(P):D$(N)_RBV NPP")
+	field(OMSL, "closed_loop")
+	field(OUT,  "$(P):D$(N) PP")
+}
+
+#--- Ramp -----------------
+record(ao,"$(P):RampR$(N)") {
+	field(PREC, "1")
+    field(DRVL, "0.0")
+    field(DRVH, "100.0")
+	field(OUT,  "$(P):RampR$(N)_write PP")
+}
+record(ao,"$(P):RampR$(N)_write") {
+	field(PREC, "1")
+    field(DRVL, "0.0")
+    field(DRVH, "100.0")
+	field(SDIS, "$(P):RampR$(N)_sync.PACT")
+	field(DISV, "1")
+  	field(FLNK, "$(P):setRamp$(N).VAL PP MS")
+}
+record(ai,"$(P):RampR$(N)_RBV") {
+	field(PREC, "1")
+	field(FLNK, "$(P):RampR$(N)_sync.PROC")
+}
+record(ao,"$(P):RampR$(N)_sync") {
+	field(PREC, "0")
+	field(DOL,  "$(P):RampR$(N)_RBV NPP")
+	field(OMSL, "closed_loop")
+	field(OUT,  "$(P):RampR$(N) PP")
+}
+
+record(bo,"$(P):OnRamp$(N)") {
+	field(DTYP, "Soft Channel")
+	field(ZNAM, "OFF")
+	field(ONAM, "ON")
+  	field(OUT,  "$(P):OnRamp$(N)_write PP")
+}
+record(bo,"$(P):OnRamp$(N)_write") {
+	field(ZNAM, "OFF")
+	field(ONAM, "ON")
+	field(SDIS, "$(P):OnRamp$(N)_sync.PACT")
+	field(DISV, "1")
+  	field(FLNK, "$(P):setRamp$(N).VAL PP MS")
+}
+record(bi,"$(P):OnRamp$(N)_RBV") {
+	field(DTYP, "Soft Channel")
+	field(ZNAM, "OFF")
+	field(ONAM, "ON")
+	field(OSV,  "MAJOR")
+	field(FLNK, "$(P):OnRamp$(N)_sync.PROC")
+}
+record(bo,"$(P):OnRamp$(N)_sync") {
+	field(DOL,  "$(P):OnRamp$(N)_RBV NPP")
+	field(OMSL, "closed_loop")
+	field(OUT,  "$(P):OnRamp$(N) PP")
+}
+
+#--- Heater -----------------
+record(mbbo,"$(P):HTR$(N):Range") {
+    field(ZRVL,"0")
+    field(ONVL,"1")
+    field(TWVL,"2")
+    field(THVL,"3")
+    field(ZRST,"OFF")
+    field(ONST,"LOW")
+    field(TWST,"MEDIUM")
+    field(THST,"HIGH")
+    field(FLNK,"$(P):HTR$(N):Range_write PP")
+}
+record(mbbo,"$(P):HTR$(N):Range_write") {
+    field(DTYP, "stream")
+    field(ZRVL,"0")
+    field(ONVL,"1")
+    field(TWVL,"2")
+    field(THVL,"3")
+    field(ZRST,"OFF")
+    field(ONST,"LOW")
+    field(TWST,"MEDIUM")
+    field(THST,"HIGH")
+	field(SDIS, "$(P):HTR$(N):Range_sync.PACT")
+	field(DISV, "1")
+    field(OUT, "@$(PROTOFILE) setRange($(N)) $(PORT) $(ADDR)")
+#    field(FLNK,"$(P):readAll")
+}
+record(mbbi,"$(P):HTR$(N):Range_RBV") {
+    field(DTYP, "stream")
+    field(INP, "@$(PROTOFILE) getRange($(N)) $(PORT) $(ADDR)")
+    field(ZRVL,"0")
+    field(ONVL,"1")
+    field(TWVL,"2")
+    field(THVL,"3")
+    field(ZRST,"OFF")
+    field(ONST,"LOW")
+    field(TWST,"MEDIUM")
+    field(THST,"HIGH")
+	field(FLNK, "$(P):HTR$(N):Range_sync.PROC")
+}
+record(mbbo,"$(P):HTR$(N):Range_sync") {
+    field(ZRVL,"0")
+    field(ONVL,"1")
+    field(TWVL,"2")
+    field(THVL,"3")
+    field(ZRST,"OFF")
+    field(ONST,"LOW")
+    field(TWST,"MEDIUM")
+    field(THST,"HIGH")
+	field(DOL,  "$(P):HTR$(N):Range_RBV NPP")
+	field(OMSL, "closed_loop")
+	field(OUT,  "$(P):HTR$(N):Range PP")
+}
+#-----------------------------
+
+record (stringin, "$(P):getPID$(N)") {
+  field (DTYP, "stream")
+  field (INP, "@$(PROTOFILE) getPID($(N),$(P)) $(PORT) $(ADDR)")
+}
+
+record (stringin, "$(P):setPID$(N)") {
+  field (DTYP, "stream")
+  field (INP, "@$(PROTOFILE) setPID($(N),$(P)) $(PORT) $(ADDR)")
+  field (FLNK, "$(P):getPID$(N).VAL PP MS")
+}
+
+
+record (stringin, "$(P):getRamp$(N)") {
+  field (DTYP, "stream")
+  field (INP, "@$(PROTOFILE) getRamp($(N),$(P)) $(PORT) $(ADDR)")
+}
+
+record (stringin, "$(P):setRamp$(N)") {
+  field (DTYP, "stream")
+  field (INP, "@$(PROTOFILE) setRamp($(N),$(P)) $(PORT) $(ADDR)")
+  field (FLNK, "$(P):getRamp$(N).VAL PP MS")
+}
+
+record(longout, "$(P):Autotune$(N)") {
+  field(DTYP, "stream")
+  field(DESC, "Start Autotune for Loop $(N)")
+  field(OUT,  "@$(PROTOFILE) setAutotune($(N),$(P)) $(PORT) $(ADDR)")
+  field(FLNK, "$(P):Autotune:Status_RBV.PROC")
+}
+record(mbbo, "$(P):Autotune$(N):Mode") {
+  field(DTYP, "Raw Soft Channel")
+  field(DESC, "Start Autotune")
+  field(ZRVL, "0")
+  field(ZRST, "P Only")
+  field(ONVL, "1")
+  field(ONST, "P and I")
+  field(TWVL, "2")
+  field(TWST, "P, I, and D")
+}
+

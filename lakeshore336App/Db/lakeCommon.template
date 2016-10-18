@@ -1,0 +1,212 @@
+
+record(asyn,"$(P):serial") {
+	field(PORT,"$(PORT)")
+}
+
+record(sseq,"$(P):readAll") {
+    field(DLY1,"1")
+	field(LNK1,"$(P):readAllMode PP NMS")
+	field(LNK2,"$(P):readAllSetup PP NMS")
+	field(LNK3,"$(P):readAllPID PP NMS")
+	field(LNK4,"$(P):readAllSP PP NMS")
+	field(LNK5,"$(P):readAllRange PP NMS")
+	field(LNK6,"$(P):read PP NMS")
+    field(WAIT1,"Wait")
+    field(WAIT2,"Wait")
+    field(WAIT3,"Wait")
+    field(WAIT4,"Wait")
+    field(WAIT5,"Wait")
+    field(WAIT6,"Wait")
+    field(SCAN, "1 second")
+}
+
+record(sseq,"$(P):read") {
+	field(LNK1,"$(P):IN1.PROC")
+	field(LNK2,"$(P):IN2.PROC")
+	field(LNK3,"$(P):IN3.PROC")
+	field(LNK4,"$(P):IN4.PROC")
+	field(LNK5,"$(P):HTR1.PROC")
+	field(LNK6,"$(P):HTR2.PROC")
+	field(LNK7,"$(P):AOUT3.PROC")
+	field(LNK8,"$(P):AOUT4.PROC")
+        field(WAIT1,"Wait")
+        field(WAIT2,"Wait")
+        field(WAIT3,"Wait")
+        field(WAIT4,"Wait")
+        field(WAIT5,"Wait")
+        field(WAIT6,"Wait")
+        field(WAIT7,"Wait")
+        field(WAIT8,"Wait")
+	field(SCAN, "Passive")
+}
+
+record(sseq,"$(P):readAllPID") {
+	field(LNK1,"$(P):getPID1.PROC")
+	field(LNK2,"$(P):getPID2.PROC")
+	field(LNK3,"$(P):getRamp1.PROC")
+	field(LNK4,"$(P):getRamp2.PROC")
+	field(LNK5,"$(P):Autotune:Status_RBV.PROC")
+    field(WAIT1,"Wait")
+    field(WAIT2,"Wait")
+    field(WAIT3,"Wait")
+    field(WAIT4,"Wait")
+    field(WAIT5,"Wait")
+	field(SCAN, "Passive")
+}
+
+record(sseq,"$(P):readAllMode") {
+	field(LNK1,"$(P):getOutMode1.PROC")
+	field(LNK2,"$(P):getOutMode2.PROC")
+	field(LNK3,"$(P):getOutMode3.PROC")
+	field(LNK4,"$(P):getOutMode4.PROC")
+        field(WAIT1,"Wait")
+        field(WAIT2,"Wait")
+        field(WAIT3,"Wait")
+        field(WAIT4,"Wait")
+	field(SCAN, "Passive")
+}
+
+record(sseq,"$(P):readAllRange") {
+	field(LNK1,"$(P):HTR1:Range_RBV.PROC")
+	field(LNK2,"$(P):HTR2:Range_RBV.PROC")
+	field(LNK3,"$(P):AOUT3:Range_RBV.PROC")
+	field(LNK4,"$(P):AOUT4:Range_RBV.PROC")
+        field(WAIT1,"Wait")
+        field(WAIT2,"Wait")
+        field(WAIT3,"Wait")
+        field(WAIT4,"Wait")
+	field(SCAN, "Passive")
+}
+
+record(sseq,"$(P):readAllSetup") {
+	field(LNK1,"$(P):IN1:getType.PROC")
+	field(LNK2,"$(P):IN2:getType.PROC")
+	field(LNK3,"$(P):IN3:getType.PROC")
+	field(LNK4,"$(P):IN4:getType.PROC")
+	field(LNK5,"$(P):IN1:Name_RBV.PROC")
+	field(LNK6,"$(P):IN2:Name_RBV.PROC")
+	field(LNK7,"$(P):IN3:Name_RBV.PROC")
+	field(LNK8,"$(P):IN4:Name_RBV.PROC")
+        field(WAIT1,"Wait")
+        field(WAIT2,"Wait")
+        field(WAIT3,"Wait")
+        field(WAIT4,"Wait")
+        field(WAIT5,"Wait")
+        field(WAIT6,"Wait")
+        field(WAIT7,"Wait")
+        field(WAIT8,"Wait")
+	field(SCAN, "Passive")
+}
+
+record(sseq,"$(P):readAllSP") {
+	field(LNK1,"$(P):OUT1:SP_RBV.PROC")
+	field(LNK2,"$(P):OUT2:SP_RBV.PROC")
+	field(LNK3,"$(P):OUT3:SP_RBV.PROC")
+	field(LNK4,"$(P):OUT4:SP_RBV.PROC")
+	field(LNK5,"$(P):OUT1:MOUT_RBV.PROC")
+	field(LNK6,"$(P):OUT2:MOUT_RBV.PROC")
+	field(LNK7,"$(P):OUT3:MOUT_RBV.PROC")
+	field(LNK8,"$(P):OUT4:MOUT_RBV.PROC")
+        field(WAIT1,"Wait")
+        field(WAIT2,"Wait")
+        field(WAIT3,"Wait")
+        field(WAIT4,"Wait")
+        field(WAIT5,"Wait")
+        field(WAIT6,"Wait")
+        field(WAIT7,"Wait")
+        field(WAIT8,"Wait")
+	field(SCAN, "Passive")
+}
+
+record(sseq,"$(P):readAllSelect") {
+	field(LNK1,"$(P):OUT1:Select.PROC")
+	field(LNK2,"$(P):OUT2:Select.PROC")
+	field(LNK3,"$(P):OUT3:Select.PROC")
+	field(LNK4,"$(P):OUT4:Select.PROC")
+        field(WAIT1,"Wait")
+        field(WAIT2,"Wait")
+        field(WAIT3,"Wait")
+        field(WAIT4,"Wait")
+	field(SCAN, "Passive")
+}
+
+record (stringin, "$(P):ID") {
+  field (DTYP, "stream")
+  field (INP, "@$(PROTOFILE) getID($(P)) $(PORT) $(ADDR)")
+}
+
+record(ai,"$(P):AOUT3") {
+    field(PREC, 1)
+        field(DTYP, "stream")
+        field(INP, "@$(PROTOFILE) getAOutput(3) $(PORT) $(ADDR)")
+}
+record(ai,"$(P):AOUT4") {
+    field(PREC, 1)
+        field(DTYP, "stream")
+        field(INP, "@$(PROTOFILE) getAOutput(4) $(PORT) $(ADDR)")
+}
+
+record(mbbi,"$(P):AOUT3:Range_RBV") {
+  field(DTYP, "stream")
+  field(INP, "@$(PROTOFILE) getRange(3) $(PORT) $(ADDR)")
+  field(ZRST,"OFF")
+  field(ONST,"ON")
+}
+
+record(mbbo,"$(P):AOUT3:Range") {
+  field(DTYP, "stream")
+  field(OUT, "@$(PROTOFILE) setRange(3) $(PORT) $(ADDR)")
+  field(ZRVL,"0")
+  field(ONVL,"1")
+  field(ZRST,"OFF")
+  field(ONST,"ON")
+#  field(FLNK,"$(P):readAll")
+}
+
+record(mbbi,"$(P):AOUT4:Range_RBV") {
+  field(DTYP, "stream")
+  field(INP, "@$(PROTOFILE) getRange(4) $(PORT) $(ADDR)")
+  field(ZRST,"OFF")
+  field(ONST,"ON")
+}
+
+record(mbbo,"$(P):AOUT4:Range") {
+  field(DTYP, "stream")
+  field(OUT, "@$(PROTOFILE) setRange(4) $(PORT) $(ADDR)")
+  field(ZRVL,"0")
+  field(ONVL,"1")
+  field(ZRST,"OFF")
+  field(ONST,"ON")
+#  field(FLNK,"$(P):readAll")
+}
+
+record(bi,"$(P):Autotune:Status_RBV") {
+  field(DESC, "Get autotune status")
+  field(DTYP, "stream")
+  field(INP,  "@$(PROTOFILE) getTuneStatus($(P)) $(PORT) $(ADDR)")
+  field(ZNAM, "No active tuning")
+  field(ONAM, "Active tuning")
+  field(FLNK, "$(P):Autotune:Output_RBV")
+}
+record(mbbi,"$(P):Autotune:Output_RBV") {
+  field(DTYP, "Raw Soft Channel")
+  field(ZRVL, "1")
+  field(ZRST, "Output 1")
+  field(ONVL, "2")
+  field(ONST, "Output 2")
+  field(TWVL, "3")
+  field(TWST, "Output 3")
+  field(THVL, "4")
+  field(THST, "Output 4")
+  field(FLNK, "$(P):Autotune:Error_RBV")
+}
+record(bi,"$(P):Autotune:Error_RBV") {
+  field(DTYP, "Raw Soft Channel")
+  field(ZNAM, "No tuning error")
+  field(ONAM, "Tuning error")
+  field(FLNK, "$(P):Autotune:Stage_RBV")
+}
+record(longin,"$(P):Autotune:Stage_RBV") {
+#  field(DTYP, "Raw Soft Channel")
+}
+
